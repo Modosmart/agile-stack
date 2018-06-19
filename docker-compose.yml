@@ -32,8 +32,8 @@ services:
   agile-devicemanager:
     command: [ "bash", "/usr/src/app/scripts/start.sh", "DeviceManager" ]
     container_name: agile-devicemanager
-    image: agileiot/agile-core-$AGILE_ARCH:v0.2.17
-    # build: apps/agile-core
+    # image: agileiot/agile-core-$AGILE_ARCH:v0.2.17
+    build: apps/agile-core
     depends_on:
       - agile-dbus
     volumes:
@@ -47,8 +47,8 @@ services:
   agile-protocolmanager:
     command: [ "bash", "/usr/src/app/scripts/start.sh", "ProtocolManager" ]
     container_name: agile-protocolmanager
-    image: agileiot/agile-core-$AGILE_ARCH:v0.2.17
-    # build: apps/agile-core
+    # image: agileiot/agile-core-$AGILE_ARCH:v0.2.17
+    build: apps/agile-core
     depends_on:
       - agile-dbus
     volumes:
@@ -62,8 +62,8 @@ services:
   agile-devicefactory:
     command: [ "bash", "/usr/src/app/scripts/start.sh", "DeviceFactory" ]
     container_name: agile-devicefactory
-    image: agileiot/agile-core-$AGILE_ARCH:v0.2.17
-    # build: apps/agile-core
+    # image: agileiot/agile-core-$AGILE_ARCH:v0.2.17
+    build: apps/agile-core
     depends_on:
       - agile-dbus
     volumes:
@@ -77,8 +77,8 @@ services:
   agile-core:
     command: [ "bash", "/usr/src/app/scripts/start.sh", "http" ]
     container_name: agile-core
-    # build: apps/agile-core
-    image: agileiot/agile-core-$AGILE_ARCH:v0.2.17
+    build: apps/agile-core
+    # image: agileiot/agile-core-$AGILE_ARCH:v0.2.17
     depends_on:
       - agile-dbus
       - agile-devicemanager
@@ -196,6 +196,15 @@ services:
     restart: always
     ports:
       - 8090:8090/tcp
+
+  modosmart-agile:
+    container_name: modosmart-agile
+    build: apps/modosmart-agile
+    # image: modosmart/modosmart-agile
+    depends_on:
+      - agile-core
+    ports:
+      - 3030:3030/tcp
 
  # agile-zb:
  #   container_name: agile-zb

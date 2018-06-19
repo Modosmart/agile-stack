@@ -4,20 +4,77 @@
 # are made available under the terms of the Eclipse Public License 2.0
 # which accompanies this distribution, and is available at
 # https://www.eclipse.org/legal/epl-2.0/
-# 
+#
 # SPDX-License-Identifier: EPL-2.0
 #
 # Contributors:
 #     Resin.io, UNI Passau, FBK - initial API and implementation
 -->
 
-# Agile-stack, resinOS and Docker-compose
+# Modosmart Agile-stack
 
-This is an easy way to develop with the agile stack on real hardware.
+This is a forked repository from [agile-stack](https://github.com/Agile-IoT/agile-stack) with some tweaks to support the Modosmart home automation sensors
 
 ## Overview:
 
 We use a [Raspberry pi](https://www.raspberrypi.org/) as a remote to [docker-compose](https://docs.docker.com/compose/overview/) on our work machine. This allows us to work as we would on our x86 machine and push changes over the local network to the docker engine running on the arm device (the Raspberry pi), which rebuilds/restarts the containers and gives us back the logs.
+
+## What is Agile-iot
+
+The [agile-iot](http://agile-iot.eu/) framework language-agnostic, modular software and hardware gateway framework for the Internet of Things with support for protocol interoperability, device and data management, IoT application execution, trusted data sharing and external Cloud communication.
+
+The full [agile-iot](http://agile-iot.eu/) stack consists of several services defined in the [agile-stack](https://github.com/Agile-IoT/agile-stack) docker-compose.yml file.
+
+Each of those service source code is available in the [agile-iot github channel](https://github.com/Agile-IoT)
+
+## Agile-iot stack
+
+In our tests the following versions are used from agile-stack
+
+| Image/Container   | Version/Tag   |
+| -------------     |:-------------:|
+| agile-dbus        | v0.1.4        |
+| agile-core        | v0.2.17       |
+| agile-ble         | v0.1.11       |
+| agile-dummy       | v0.3.1        |
+| agile-ui          | v2.5.1        |
+| agile-osjs        | v0.4.0        |
+| agile-nodered     | v0.3.2        |
+| agile-security    | v3.7.3        |
+| agile-data        | v0.1.3        |
+| agile-recommender | v0.3.7        |
+
+To configure the Agile-IoT to work with ModoSmart devices, only one of the preivous mentioned service should be changed which is agile-core inorder to add definition for our custom devices.
+
+We created a fork for the agile-core [here](https://github.com/mohamed-elsabagh/agile-core) where we added our devices to the list of the devices as a Java class.
+
+We added support for two of our sensors which are [Room Sensor](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartRoomSensorDevice.java) and [Window Sensor](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartWindowSensor.java) as well as a [testing sensor device](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartTest.java)
+
+## BLE Sensors
+
+#### Room Sensor
+
+| 128 bit UUID                          | short UUID    | BLE Service name          | BLE Characteristic name |
+| :-----------------------------------: |:-------------:|:------------------------: |:------------------------: |
+| 0000A000-0000-1000-8000-00805f9b34fb  | 0xA000        |Environmental data service ||
+| 0000A001-0000-1000-8000-00805f9b34fb  | 0xA001        |                           |Presence detection|
+| 00002A6E-0000-1000-8000-00805f9b34fb  | 0x2A6E        |                           |Temperature|
+| 00002A6F-0000-1000-8000-00805f9b34fb  | 0x2A6F        |                           |	Humidity|
+| 0000180F-0000-1000-8000-00805f9b34fb  | 0x180F        |	Battery service           ||
+| 00002A19-0000-1000-8000-00805f9b34fb  | 0x2A19        |                           |Battery level|
+| 0000180A-0000-1000-8000-00805f9b34fb  | 0x180A        |Device Information Service ||
+| 00002A26-0000-1000-8000-00805f9b34fb  | 0x2A26        |                           |Firmware Revision String||
+
+
+#### Window Sensor
+| 128 bit UUID                          | short UUID    | BLE Service name          | BLE Characteristic name |
+| :-----------------------------------: |:-------------:|:------------------------: |:------------------------: |
+| 0000180F-0000-1000-8000-00805f9b34fb  | 0x180F        |Battery service            ||
+| 00002A19-0000-1000-8000-00805f9b34fb  | 0x2A19        |                           |Battery level|
+| 0000180A-0000-1000-8000-00805f9b34fb  | 0x180A        |Device Information Service||
+| 00002A26-0000-1000-8000-00805f9b34fb  | 0x2A26        |                           |	Firmware Revision String||
+
+The previous sensors are defined as [Room Sensor](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartRoomSensorDevice.java) and [Window Sensor](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartWindowSensor.java) as well as a [testing sensor device](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartTest.java) in Java class so it can be compiled locally with the forked version of the [agile-core](https://github.com/mohamed-elsabagh/agile-core)
 
 ## Usage:
 It's a simple 3 step process (I wont count [requirements](#requirements))
@@ -64,7 +121,6 @@ Done!
 **Windows OS**: Before trying to find the Raspberry Pi device, the host computer network connection must be configured to enable network discovery of other devices. For Windows OS > 7 the "Private" profile should be OK. The "Public" networking profile will not allow network discovery so the resin.local device will not be found. These settings can be found in the Network and Sharing Center -> Change advanced sharing settings
 
 * Boot the device and check if you can connect to it by running:
-
 ```
 ping resin.local
 ```
@@ -75,99 +131,26 @@ sudo resin local scan
 ```
 
 ### Start the agile services
-* First clone this repo:
+* First clone this repo on host machine:
 ```
-git clone https://github.com/agile-iot/agile-stack && cd agile-stack
-```
-
-* Copy `.env.example` to `.env` and customize it by adding your devices hostname. (default is `resin.local`)
-```
-cp .env.example .env
+git clone https://github.com/mohamed-elsabagh/agile-stack.git && cd agile-stack
 ```
 
-* Enable the HCI adapter and disable the bluetooth daemon in the host
+* Clone the forked version of [agile-core](https://github.com/mohamed-elsabagh/agile-core), which has support to ModoSmart devices in a folder called apps, instead of using the pre-built image from Agile-IoT docker hub.
 ```
-ssh root@resin.local -p22222 'mount -o remount,rw / && systemctl disable bluetooth && sed -i "s/i2c-dev/i2c-dev\n\/usr\/bin\/hciattach \/dev\/ttyAMA0 bcm43xx 921600 noflow -/" /usr/bin/resin-init-board && mount -o remount,ro / && /usr/bin/hciattach /dev/ttyAMA0 bcm43xx 921600 noflow -'
+mkdir apps && cd apps
+git clone https://github.com/mohamed-elsabagh/agile-core.git
+git submodule init
+git submodule update
+cd ..
+```
+
+* Clone the [ModoSmart Service](https://github.com/mohamed-elsabagh/modosmart-agile) in the apps which will expose the service of modosmart to be consumed
+```
+git clone https://github.com/mohamed-elsabagh/modosmart-agile.git
 ```
 
 * Deploy
 ```
 docker-compose up
 ```
-
-### Logging in and trying Node-RED
-
-Go to resin-local:8000 and login with  user: agile and password: secret  through the OSJS interface.
-
-Then you can deploy the following flow to get the user information for the user who is currently logged in:
-```
-[{"id":"b92b4272.3dc098","type":"idm-token","z":"6a9908eb.920a4","name":"","tokensource":"session","idm":"http://localhost:3000","x":204.5,"y":187.75,"wires":[["d0c1ae6.805175","297051af.53cc36"]]},{"id":"edca8fbb.5813d8","type":"inject","z":"6a9908eb.920a4","name":"","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":111.5,"y":107.25,"wires":[["b92b4272.3dc098"]]},{"id":"d0c1ae6.805175","type":"debug","z":"6a9908eb.920a4","name":"","active":false,"console":"false","complete":"true","x":382.5,"y":186.5,"wires":[]},{"id":"fd27bce8.50d0a8","type":"http request","z":"6a9908eb.920a4","name":"","method":"GET","ret":"txt","url":"","tls":"","x":292.5,"y":353.75,"wires":[["6eb9381e.e3f24"]]},{"id":"297051af.53cc36","type":"function","z":"6a9908eb.920a4","name":"","func":"msg.headers = {\"Authorization\": \"bearer \"+msg.token};\nmsg.url = \"http://agile-idm:3000/oauth2/api/userinfo\"\nmsg.method = \"GET\";\nreturn msg;","outputs":1,"noerr":0,"x":252.5,"y":265.75,"wires":[["fd27bce8.50d0a8"]]},{"id":"6eb9381e.e3f24","type":"debug","z":"6a9908eb.920a4","name":"","active":true,"console":"false","complete":"false","x":470.5,"y":354.5,"wires":[]}]
-```
-
-### Developing
-
-`docker-compose.yml` holds the configuration for the containers, you'll see currently all the images use a prebuilt container from [Dockerhub](https://hub.docker.com/u/agileiot/) eg:
-```
-agile-core:
-  image: agileiot/agile-core-armv7l
-```
-
-However when we are developing a new or existing service will, of course, want to build the container locally instead of publishing it online for every change.
-
-#### Developing with an existing service:
-
-* Clone the source to the `/apps` directory
-
-```
-$ cd /apps && git clone https://github.com/Agile-IoT/agile-core.git
-```
-
-* Then tell `docker-compose` to build from source by commenting out the image key and uncommenting the build key.
-```
-agile-core:
-  # image: agileiot/agile-core-armv7l
-  build: apps/agile-core
-```
-* Deploy :tada
-```
-bash push.sh
-```
-
-The docker engine will cache builds so things will be a lot quicker after the first run.
-
-#### Developing with a new service:
-
-It follows the same procedure as above however you'll need to create a new entry in the `docker-compose.yml`.
-
-* Clone your source to `/apps` & add a Dockerfile if you don't already have one.
-```
-cd /apps && git clone https://github.com/Agile-IoT/agile-my-service.git
-```
-
-* Add an entry for the new service to `docker-compose.yml`. The simplest configuration would be. You can read more about docker-compose options [here](https://docs.docker.com/compose/compose-file/):
-```
-agile-my-service:
-  build: apps/agile-my-service
-```
-
-I've also included a simple `agile-example` service to serve as a guide.
-
-#### Ssh'ing
-
-You may want to see what's going on in during runtime:
-
-To ssh into the host:
-```
-$ sudo resin local ssh resin.local --host
-```
-
-To ssh into one of the containers:
-```
-$ sudo resin local ssh resin.local
-```
-
-#### Troubleshooting
-
-* Can't ping `resin.local`?
-
-`resin.local` won't work across subnets, your device maybe on a `2.4gz` network and your work machine maybe on the `5gz`.
