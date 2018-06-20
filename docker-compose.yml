@@ -21,6 +21,16 @@ services:
 #      - agile-core
 #    command: node index.js
 
+  modosmart-agile:
+    container_name: modosmart-agile
+    build: apps/modosmart-agile
+    # image: modosmart/modosmart-agile
+    depends_on:
+      - agile-core
+    ports:
+      - 3030:3030
+    restart: always
+
   agile-dbus:
     container_name: agile-dbus
     image: agileiot/agile-dbus-$AGILE_ARCH:v0.1.4
@@ -196,15 +206,6 @@ services:
     restart: always
     ports:
       - 8090:8090/tcp
-
-  modosmart-agile:
-    container_name: modosmart-agile
-    build: apps/modosmart-agile
-    # image: modosmart/modosmart-agile
-    depends_on:
-      - agile-core
-    ports:
-      - 3030:3030/tcp
 
  # agile-zb:
  #   container_name: agile-zb

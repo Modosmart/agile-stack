@@ -154,3 +154,8 @@ git clone https://github.com/mohamed-elsabagh/modosmart-agile.git
 ```
 docker-compose up
 ```
+
+Once all containers are up and running the bluetooth should be disabled by running the next command from pi host OS (resin OS)
+```
+systemctl stop bluetooth
+```
