@@ -46,9 +46,9 @@ In our tests the following versions are used from agile-stack
 
 To configure the Agile-IoT to work with ModoSmart devices, only one of the preivous mentioned service should be changed which is agile-core inorder to add definition for our custom devices.
 
-We created a fork for the agile-core [here](https://github.com/mohamed-elsabagh/agile-core) where we added our devices to the list of the devices as a Java class.
+We created a fork for the agile-core [here](https://github.com/Modosmart/agile-core) where we added our devices to the list of the devices as a Java class.
 
-We added support for two of our sensors which are [Room Sensor](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartRoomSensorDevice.java) and [Window Sensor](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartWindowSensor.java) as well as a [testing sensor device](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartTest.java)
+We added support for two of our sensors which are [Room Sensor](https://github.com/Modosmart/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartRoomSensorDevice.java) and [Window Sensor](https://github.com/Modosmart/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartWindowSensor.java) as well as a [testing sensor device](https://github.com/Modosmart/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartTest.java)
 
 ## BLE Sensors
 
@@ -74,7 +74,7 @@ We added support for two of our sensors which are [Room Sensor](https://github.c
 | 0000180A-0000-1000-8000-00805f9b34fb  | 0x180A        |Device Information Service||
 | 00002A26-0000-1000-8000-00805f9b34fb  | 0x2A26        |                           |	Firmware Revision String||
 
-The previous sensors are defined as [Room Sensor](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartRoomSensorDevice.java) and [Window Sensor](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartWindowSensor.java) as well as a [testing sensor device](https://github.com/mohamed-elsabagh/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartTest.java) in Java class so it can be compiled locally with the forked version of the [agile-core](https://github.com/mohamed-elsabagh/agile-core)
+The previous sensors are defined as [Room Sensor](https://github.com/Modosmart/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartRoomSensorDevice.java) and [Window Sensor](https://github.com/Modosmart/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartWindowSensor.java) as well as a [testing sensor device](https://github.com/Modosmart/agile-core/blob/master/org.eclipse.agail.DeviceFactory/src/main/java/org/eclipse/agail/device/instance/ModosmartTest.java) in Java class so it can be compiled locally with the forked version of the [agile-core](https://github.com/Modosmart/agile-core)
 
 ## Usage:
 It's a simple 3 step process (I wont count [requirements](#requirements))
@@ -133,21 +133,21 @@ sudo resin local scan
 ### Start the agile services
 * First clone this repo on host machine:
 ```
-git clone https://github.com/mohamed-elsabagh/agile-stack.git && cd agile-stack
+git clone https://github.com/Modosmart/agile-stack.git && cd agile-stack
 ```
 
-* Clone the forked version of [agile-core](https://github.com/mohamed-elsabagh/agile-core), which has support to ModoSmart devices in a folder called apps, instead of using the pre-built image from Agile-IoT docker hub.
+* Clone the forked version of [agile-core](hhttps://github.com/Modosmart/agile-core), which has support to ModoSmart devices in a folder called apps, instead of using the pre-built image from Agile-IoT docker hub.
 ```
 mkdir apps && cd apps
-git clone https://github.com/mohamed-elsabagh/agile-core.git
+git clone https://github.com/Modosmart/agile-stack.git
 git submodule init
 git submodule update
 cd ..
 ```
 
-* Clone the [ModoSmart Service](https://github.com/mohamed-elsabagh/modosmart-agile) in the apps which will expose the service of modosmart to be consumed
+* Clone the [ModoSmart Service](https://github.com/Modosmart/modosmart-agile) in the apps which will expose the service of modosmart to be consumed
 ```
-git clone https://github.com/mohamed-elsabagh/modosmart-agile.git
+git clone https://github.com/Modosmart/modosmart-agile.git
 ```
 
 * Deploy
