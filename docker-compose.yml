@@ -25,6 +25,8 @@ services:
     container_name: modosmart-agile
     build: apps/modosmart-agile
     # image: modosmart/modosmart-agile
+    depends_on:
+      - agile-core
     ports:
       - 3030:3030
     restart: always
